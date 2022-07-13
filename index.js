@@ -1,7 +1,7 @@
 const express = require("express");
 const routes = require("./router");
 
-const app = express();
+const app = express().use(express.json());
 const port = 3000;
 
 routes(app);

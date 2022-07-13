@@ -2,14 +2,19 @@
 const productRoutes = require('../products/products-routes');
 const categoryRoutes = require('../categories/categories-routes');
 const userRoutes = require('../users/users-routes');
+const {Router} = require("express");
+
 
 function routerApi(app){
-  app.get('/', (_,res) => {
+
+  const router = Router();
+  app.use('/api/v1', router);
+  router.get('/', (_,res) => {
     res.send('server running');
   });
-  app.use('/products', productRoutes);
-  app.use('/categories', categoryRoutes);
-  app.use('/users', userRoutes);
+  router.use('/products', productRoutes);
+  router.use('/categories', categoryRoutes);
+  router.use('/users', userRoutes);
 }
 
 module.exports = routerApi;
