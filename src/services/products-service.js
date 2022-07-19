@@ -1,4 +1,5 @@
 const faker = require("faker");
+const boom = require("@hapi/boom");
 
 class ProductsService{
 
@@ -15,7 +16,6 @@ class ProductsService{
         image: faker.image.imageUrl(),
         id: faker.datatype.uuid()
       });
-
     }
     return products
   }
@@ -32,30 +32,31 @@ class ProductsService{
     return 'filtered: '+id;
   }
 
-  async getOne(id){
-
-    return id.includes('undefined')  ?  '--- Invalid Id ---' :
-    {
-      id,
-      nombre: 'Xiaomi mi band 5',
-      precio: 165000
+  async getOne(id, next){
+    try{
+      this.mad();
+      return id.includes('undefined')  ?  '--- Invalid Id ---' :
+      {
+        id,
+        nombre: 'Xiaomi mi band 5',
+        precio: 165000
+      }
+    }catch(e){
+      next('error controlado')
     }
 
   }
 
-  async update(id, changes){
+  async update(id, changes, next){
     const index = this.products.findIndex(product => product.id === id);
     if(index !== -1){
       this.products[index] = {...this.products[index], ...changes};
     }else{
-      return{
-        message: "product not found",
-        success: false
-      }
+      next(boom.notFound("product not found"));
     }
   }
 
-  async delete(id){
+  async delete(id, next){
     const index = this.products.findIndex(product => product.id === id);
     if(index !== -1){
       delete this.products.splice(index,1);
@@ -64,10 +65,8 @@ class ProductsService{
         success: true
       };
     }else{
-      return{
-        message: "product not found",
-        success: false
-      }
+      next(boom.notFound("product not found"));
+
     }
   }
 }

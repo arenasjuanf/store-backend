@@ -12,9 +12,9 @@ router.get('/filter/:id', async (req,res) => {
   res.json(await controller.filter(id));
 });
 
-router.get('/:id', async (req,res) => {
+router.get('/:id', async (req, res, next) => {
   const {id} = req.params;
-  res.status(id==999 ? 404 : 201 ).json(id==999 ? {message: 'not found'} : productController.getOne(id) );
+  res.status(id==999 ? 404 : 201 ).json(id==999 ? {message: 'not found'} : await controller.getOne(id, next) );
 });
 
 router.post('/', async(req, res) => {
@@ -24,15 +24,15 @@ router.post('/', async(req, res) => {
 
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', async (req, res, next) => {
   const {body:data, params:{id}} = req;
-  res.json(await controller.update(id, data));
+  res.json(await controller.update(id, data, next));
 });
 
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req, res, next) => {
   const {params:{id}} = req;
-  res.json(await controller.delete(id));
+  res.json(await controller.delete(id, next));
 });
 
 module.exports = router;

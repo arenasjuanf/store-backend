@@ -15,8 +15,8 @@ class ProductsController {
 
   };
 
-  getOne (id){
-    return this.service.findOne(id);
+  getOne (id,next){
+    return this.service.getOne(id,next);
   }
 
   filter (id){
@@ -27,12 +27,12 @@ class ProductsController {
     return this.service.create(data);
   }
 
-  update(id,data){
-    return this.service.update(id,data);
+  update(id,data, next){
+    return this.service.update(id, data, next);
   }
 
-  delete(id){
-    return this.service.delete(id);
+  delete(id,next){
+    return this.service.delete(id, next);
 
   }
 

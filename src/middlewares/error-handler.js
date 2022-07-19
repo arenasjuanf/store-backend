@@ -1,5 +1,4 @@
 function logErrors(err, req, res, next){
-  console.error(err);
   next(err);
 }
 
@@ -10,8 +9,17 @@ function errorHandler(err, req, res, next){
   })
 }
 
+function boomErrorHandler(err, req, res, next){
+  if(err.isBoom){
+    const { output:{ payload, statusCode} } = err;
+    res.status(statusCode).json(payload);
+  }
+  next(err);
+
+}
 
 module.exports = {
   logErrors,
-  errorHandler
+  errorHandler,
+  boomErrorHandler
 }
