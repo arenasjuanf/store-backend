@@ -19,7 +19,7 @@ router.get('/:id',
   validatorHandler(getProductSchema, 'params'),
   async (req, res, next) => {
     const {id} = req.params;
-    return res.sendStatus(id==999 ? 404 : 201 ).json(id==999 ? {message: 'not found'} : await controller.getOne(id, next) );
+    return res.statusCode(id==999 ? 404 : 201 ).json(id==999 ? {message: 'not found'} : await controller.getOne(id, next) );
   }
 );
 
