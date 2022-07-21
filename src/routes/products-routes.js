@@ -1,5 +1,8 @@
 const {Router} = require("express");
 const productController = require('../controllers/products-controller');
+const validatorHandler = require('../middlewares/validator-handler');
+const { createProductSchema, updateProductSchema, getProductSchema } = require('../schemas/product-schema');
+
 const router = Router();
 const controller = new productController();
 
@@ -12,10 +15,13 @@ router.get('/filter/:id', async (req,res) => {
   res.json(await controller.filter(id));
 });
 
-router.get('/:id', async (req, res, next) => {
-  const {id} = req.params;
-  res.status(id==999 ? 404 : 201 ).json(id==999 ? {message: 'not found'} : await controller.getOne(id, next) );
-});
+router.get('/:id',
+  validatorHandler(getProductSchema, 'params'),
+  async (req, res, next) => {
+    const {id} = req.params;
+    return res.sendStatus(id==999 ? 404 : 201 ).json(id==999 ? {message: 'not found'} : await controller.getOne(id, next) );
+  }
+);
 
 router.post('/', async(req, res) => {
   const {body: data} = req;
