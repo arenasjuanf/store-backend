@@ -19,14 +19,11 @@ const options = {
     }
   }
 }
+
 app.use(cors(options));
 
 app.get('/', (req, res) => {
-  res.send('Hola mi server en express');
-});
-
-app.get('/nueva-ruta', (req, res) => {
-  res.send('Hola, soy una nueva ruta');
+  res.send('store server');
 });
 
 routerApi(app);
@@ -37,5 +34,5 @@ app.use(errorHandler);
 
 
 app.listen(port, () => {
-  console.log('Mi port' +  port);
+  console.log('Port ', port);
 });
