@@ -2,8 +2,9 @@ const {Router} = require("express");
 const userController = require('../controllers/users-controller');
 const router = Router();
 
-router.get('/', (req,res) => {
-  res.json(userController.getAll());
+router.get('/', async (req,res) => {
+  const response = await userController.getAll()
+  res.json(response);
 });
 
 router.get('/get', (req,res) => {
