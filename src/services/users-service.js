@@ -1,55 +1,33 @@
-const faker = require("faker");
+const boom = require('@hapi/boom');
 
-class UsersService{
-  constructor(){
-    this.users = this.generate();
+const { models } = require('./../libs/sequelize');
+
+class UserService {
+  constructor() {}
+
+  async create(data) {
+    return data;
   }
 
-  generate(){
-    const users = [
-      {
-        id:1,
-        name: 'name',
-        email: "email@email.com"
-      },{
-        id:2,
-        name: 'name',
-        email: "email@email.com"
-      },
-      {
-        id:3,
-        name: 'name',
-        email: "email@email.com"
-      },
-      {
-        id:4,
-        name: 'name',
-        email: "email@email.com"
-      }
-    ]
-    return users;
+  async find() {
+    const rta = await models.User.findAll();
+    return rta;
   }
 
-  create(){
-
+  async findOne(id) {
+    return { id };
   }
 
-  filter(id){
-    return 'filtered: '+id;
-  }
-
-  getOne(id){
-
-    return id.includes('undefined')  ?  'Invalid Id' :
-    {
+  async update(id, changes) {
+    return {
       id,
-      name: 'name',
-      email: "email@email.com"
-    }
-
+      changes,
+    };
   }
 
-  update(){
-
+  async delete(id) {
+    return { id };
   }
 }
+
+module.exports = UserService;
