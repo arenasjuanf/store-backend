@@ -1,9 +1,17 @@
 const UsersService = require('../services/users-service');
-module.exports = {
-  getAll: async () => ({
+
+class UserController{
+  constructor(){}
+
+  create = async(data) =>  (await new UsersService().create(data));
+
+  getAll = async () => ({
     users: await new UsersService().find()
-  }),
-  getOne: (id) => {
-    return new UsersService().getOne(id);
+  });
+
+  getOne = async (id) => {
+    return await new UsersService().findOne(id);
   }
 }
+
+module.exports = UserController

@@ -1,9 +1,11 @@
 const {Router} = require("express");
-const userController = require('../controllers/users-controller');
+const UserController = require("../controllers/users-controller");
 const router = Router();
 
+const controller = new UserController();
+
 router.get('/', async (req,res) => {
-  const response = await userController.getAll()
+  const response = await controller.getAll()
   res.json(response);
 });
 
@@ -14,9 +16,15 @@ router.get('/get', (req,res) => {
 
 router.get('/:id', (req,res) => {
   const {id} = req.params;
-  res.json(userController.getOne(id));
+  res.json(controller.getOne(id));
 })
 
+
+router.post('/', (req,res) => {
+  const {body: data} = req;
+  console.log(data);
+  res.json(controller.create(data));
+})
 
 
 module.exports = router;
